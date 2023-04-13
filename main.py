@@ -320,6 +320,35 @@ class App:
         self.draw_curr_tool(last)
         self.screen.blit(self.canvas, (35, 50))
 
+    def shortcuts(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LCTRL] or keys[pygame.K_RCTRL]:
+            if keys[pygame.K_z]:
+                self.objs = self.objs[:-1]
+            if keys[pygame.K_BACKSPACE]:
+                self.objs = []
+            if keys[pygame.K_s]:
+                pygame.image.save(self.canvas, "image.png")
+            if keys[pygame.K_o]:
+                self.objs = []
+                self.canvas = pygame.image.load("image.png")
+            if keys[pygame.K_1]:
+                self.curr_op = 0
+            if keys[pygame.K_2]:
+                self.curr_op = 1
+            if keys[pygame.K_3]:
+                self.curr_op = 2
+            if keys[pygame.K_4]:
+                self.curr_op = 3
+            if keys[pygame.K_5]:
+                self.curr_op = 4
+            if keys[pygame.K_6]:
+                self.curr_op = 5
+            if keys[pygame.K_7]:
+                self.curr_op = 6
+            if keys[pygame.K_8]:
+                self.curr_op = 7
+
     def run(self):
         last_frame = False
         while self.running:
@@ -349,12 +378,13 @@ class App:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.clicked = False
-                    if self.curr_op == 3:
+                    if self.curr_op == 5:
+                        keys = pygame.key.get_pressed()
                         if event.key == pygame.K_BACKSPACE:
                             self.temp_text = self.temp_text[:-1]
-                        else:
+                        elif not keys[pygame.K_LCTRL] and not keys[pygame.K_RCTRL]:
                             self.temp_text += event.unicode
-
+            self.shortcuts()
             self.screen.fill((255, 255, 255))
             self.draw_toolbar(last_frame)
             self.draw_colorbar()
